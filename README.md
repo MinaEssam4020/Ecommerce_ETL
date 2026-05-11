@@ -49,22 +49,81 @@ ecommerce_pipeline/
 
 ## Data Warehouse — Star Schema
 
-```
-                     ┌─────────────┐
-                     │  dim_date   │
-                     └──────┬──────┘
-                            │
-┌──────────────┐    ┌───────┴────────┐    ┌───────────────┐
-│ dim_customer │────│  fact_orders   │────│  dim_product  │
-└──────────────┘    └───────┬────────┘    └───────────────┘
-                            │
-                     ┌──────┴──────┐
-                     │dim_geography│
-                     └─────────────┘
+```mermaid
+erDiagram
+    fact_orders {
+        int order_key PK
+        string order_id
+        int customer_key FK
+        int product_key FK
+        int geography_key FK
+        int date_key FK
+        int quantity
+        float unit_price
+        float total_order_value
+        float total_order_value_usd
+        string currency
+        string status
+        bool is_returned
+    }
 
-                     ┌──────────────────┐
-                     │  fact_returns    │  (subset of fact_orders)
-                     └──────────────────┘
+    fact_returns {
+        int return_key PK
+        string order_id FK
+        int customer_key FK
+        int product_key FK
+        int geography_key FK
+        int date_key FK
+        float total_order_value_usd
+        timestamp ingested_at
+    }
+
+    dim_customer {
+        int customer_key PK
+        string customer_id
+        string customer_name
+        string email
+        string country
+        string currency
+    }
+
+    dim_product {
+        int product_key PK
+        string product_name
+        string product_category
+    }
+
+    dim_geography {
+        int geography_key PK
+        string country
+        string region
+        string subregion
+        string currency
+    }
+
+    dim_date {
+        int date_key PK
+        date full_date
+        int year
+        int quarter
+        int month
+        string month_name
+        int week_number
+        int day_of_week
+        string day_name
+    }
+
+    fact_orders }o--|| dim_customer     : "customer_key"
+    fact_orders }o--|| dim_product      : "product_key"
+    fact_orders }o--|| dim_geography    : "geography_key"
+    fact_orders }o--|| dim_date         : "date_key"
+
+    fact_returns }o--|| dim_customer    : "customer_key"
+    fact_returns }o--|| dim_product     : "product_key"
+    fact_returns }o--|| dim_geography   : "geography_key"
+    fact_returns }o--|| dim_date        : "date_key"
+
+    fact_returns }o--|| fact_orders     : "order_id"
 ```
 
 | Table | Rows (per day) | Description |
