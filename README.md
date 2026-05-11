@@ -34,7 +34,7 @@ ecommerce_pipeline/
 │   ├── generate_orders.py      # Faker-based order generator
 │   ├── fetch_reference_data.py # FX rates + country reference data
 │   ├── transform.py            # Cleaning, enrichment, feature engineering
-│   ├── load.py                 # Upserts into SQL Server star schema
+│   ├── load.py                 # Upserts into SQL Server Galaxy schema
 │   ├── db_connection.py        # SQLAlchemy engine setup
 │   └── create_tables.sql       # DDL for all tables + summary view
 ├── dags/
@@ -47,7 +47,7 @@ ecommerce_pipeline/
 
 ---
 
-## Data Warehouse — Star Schema
+## Data Warehouse — Galaxy Schema
 
 ```mermaid
 erDiagram
@@ -190,8 +190,8 @@ Revenue Lost =
 **Why Faker instead of a real e-commerce API?**
 Real APIs (Shopify, WooCommerce) require store access. Faker produces realistic, controllable data at any volume — this is standard practice for pipeline portfolio projects.
 
-**Why a star schema instead of one flat table?**
-Dimension tables store reference data once. Fact tables store events. Querying 1,000 fact rows joined to 25 product rows is far faster than scanning 1,000 rows with repeated product names embedded in each row.
+**Why a Galaxy schema instead of one flat table?**
+Dimension tables store reference data once. Fact tables store events. Querying 1,000 fact rows joined to 25 product rows is far faster than scanning 1,000 rows with repeated product names embedded in each row. Two separate fact tables (fact_orders, fact_returns) reflect two distinct business processes — ordering and returning — each with its own grain and metrics. They share the same dimension tables, avoiding any data duplication.
 
 **Why a quality_check task before loading?**
 If the ingest or transform step produces empty or invalid data, the quality check stops the pipeline before any bad data reaches SQL Server. This is what makes a pipeline production-grade rather than just a scheduled script.
