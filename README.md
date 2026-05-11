@@ -213,7 +213,7 @@ python-dotenv
 pyarrow
 apache-airflow==2.9.0
 ```
-<img width="1877" height="985" alt="ECommerce" src="https://github.com/user-attachments/assets/a1e6b16e-22bb-47e5-b404-a27c3a944afc" />
+<img width="1874" height="978" alt="Screenshot 2026-05-11 142543" src="https://github.com/user-attachments/assets/b38d6e7f-71cf-4ad6-8b85-5d176f9006d5" />
 <img width="1568" height="641" alt="Screenshot 2026-05-08 160746" src="https://github.com/user-attachments/assets/c920964e-de45-4b1b-a72e-53420b47ce2d" />
 <img width="1591" height="643" alt="Screenshot 2026-05-08 160645" src="https://github.com/user-attachments/assets/6645414e-2448-4438-99c4-54f4d1a135b8" />
 <img width="843" height="683" alt="Screenshot 2026-05-08 165648" src="https://github.com/user-attachments/assets/acd839fa-eee7-43b2-93e4-e1c47ae487da" />
